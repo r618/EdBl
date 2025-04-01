@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 06f561c7434b81c4b9a5778720d37bd0
+timeCreated: 1488866506
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 85466
+  packageName: Multi-Projection Edge Blending
+  packageVersion: 1.1
+  assetPath: Assets/MultiProjection/scene/MP_Demo.unity
+  uploadId: 247536

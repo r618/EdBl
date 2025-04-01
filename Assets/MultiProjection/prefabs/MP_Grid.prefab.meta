@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 0bafc50df3f9f694abbd078c3b81fc72
+timeCreated: 1492171657
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 85466
+  packageName: Multi-Projection Edge Blending
+  packageVersion: 1.1
+  assetPath: Assets/MultiProjection/prefabs/MP_Grid.prefab
+  uploadId: 247536

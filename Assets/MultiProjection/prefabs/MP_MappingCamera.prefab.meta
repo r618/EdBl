@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: e188bf5a598c82744ae4b0e751e53f04
+timeCreated: 1488866459
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 85466
+  packageName: Multi-Projection Edge Blending
+  packageVersion: 1.1
+  assetPath: Assets/MultiProjection/prefabs/MP_MappingCamera.prefab
+  uploadId: 247536

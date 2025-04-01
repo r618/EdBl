@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 63353f28542fb1649a37d4492edeb558
+timeCreated: 1488866459
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 85466
+  packageName: Multi-Projection Edge Blending
+  packageVersion: 1.1
+  assetPath: Assets/MultiProjection/prefabs/MP_Edge.prefab
+  uploadId: 247536

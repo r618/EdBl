@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: f0b1e1eebbed56c48972579e7adae5dc
+timeCreated: 1488849064
+licenseType: Store
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 85466
+  packageName: Multi-Projection Edge Blending
+  packageVersion: 1.1
+  assetPath: Assets/MultiProjection/scripts/MP_MyTools.cs
+  uploadId: 247536

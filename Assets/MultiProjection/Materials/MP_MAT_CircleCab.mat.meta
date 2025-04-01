@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: f1c7b7972e58f0a419af8c3d6e04b056
+timeCreated: 1488866200
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 85466
+  packageName: Multi-Projection Edge Blending
+  packageVersion: 1.1
+  assetPath: Assets/MultiProjection/Materials/MP_MAT_CircleCab.mat
+  uploadId: 247536

@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: 42a637be4f8dfe646bee3d839b89ef63
+timeCreated: 1488849064
+licenseType: Store
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 85466
+  packageName: Multi-Projection Edge Blending
+  packageVersion: 1.1
+  assetPath: Assets/MultiProjection/scripts/MP_ScreenGrid.cs
+  uploadId: 247536

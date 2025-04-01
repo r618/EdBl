@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: d7ed42422d18ef74bad2540016e1d345
+timeCreated: 1488849064
+licenseType: Store
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 85466
+  packageName: Multi-Projection Edge Blending
+  packageVersion: 1.1
+  assetPath: Assets/MultiProjection/scripts/MP_ROW_COL.cs
+  uploadId: 247536
