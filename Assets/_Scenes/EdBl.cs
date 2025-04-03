@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class EdBl : MonoBehaviour
 {
-    [SerializeField] Camera extendedCam;
-    /*
+    [SerializeField] MP_MultiScreen multiScreen;
+
     void Awake()
     {
         Debug.Log("connected displays: " + Display.displays.Length);
@@ -17,13 +17,15 @@ public class EdBl : MonoBehaviour
 
         Screen.SetResolution(Display.displays[0].systemWidth * Display.displays.Length, Display.displays[0].systemHeight, FullScreenMode.FullScreenWindow);
     }
-    */
 
-    bool gui = false;
+    bool eblGui = false;
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F9))
-            this.gui = !this.gui;
+        if (Input.GetKeyDown(KeyCode.F10))
+        {
+            this.eblGui = !this.eblGui;
+            this.multiScreen.showGrid = this.eblGui;
+        }
 
         if (Input.GetKeyDown(KeyCode.Escape))
             Application.Quit();
@@ -31,7 +33,7 @@ public class EdBl : MonoBehaviour
 
     void OnGUI()
     {
-        if (!this.gui)
+        if (!this.eblGui)
             return;
 
         GUI.Box(new Rect(0, 0, Screen.width, Screen.height), "");

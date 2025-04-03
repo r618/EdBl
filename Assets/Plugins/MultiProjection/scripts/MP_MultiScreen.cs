@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
-/// <summary>
+﻿/// <summary>
 /// Create by vvvision ,got help from 
 /// http://vvvision.net/zblog/post/MultiProjectionUnity.html
 /// </summary>
 /// 
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 
 public class MP_MultiScreen : MonoBehaviour
 {
