@@ -1,28 +1,8 @@
-﻿/// <summary>
-/// Create by vvvision ,got help from 
-/// http://vvvision.net/zblog/post/MultiProjectionUnity.html
-/// </summary>
-/// 
-using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
-public class MP_MultiScreen : MonoBehaviour
+public partial class MP_MultiScreen_X : MonoBehaviour
 {
-
-    /// <summary>
-    /// Screen Resolution for single screen you can define your own here.
-    /// </summary>
-    public enum ScreenResolution
-    {
-        S_800X600 = 0,
-        S_1024X768,    //default
-        S_1280X720,
-        S_1280X800,
-        S_1920X1080,
-        S_1920X1200,
-    };
-
     /// <summary>
     /// Screen Layout  is mean how many projector for blending
     /// </summary>
@@ -53,31 +33,15 @@ public class MP_MultiScreen : MonoBehaviour
         B_2, //default
         B_3,
         B_4,
-        B_5,       
-    };
-
-    /// <summary>
-    /// detect what's object are ctrol , gird or color , that's use for share up/down key
-    /// </summary>
-    public enum CtrolObject
-    {
-        C_GRID = 0,  // grid ctrol now
-        C_COLOR_R,   // color red
-        C_COLOR_G,   // color green
-        C_COLOR_B,   // color blue
+        B_5,
     };
 
     public ScreenLayout layout = ScreenLayout.L_2X1;
     public BlendAreaCount blend_count = BlendAreaCount.B_2;
-    public ScreenResolution screen_reslotion = ScreenResolution.S_1024X768;
-    
-    public GameObject screen_pre;
-    private static MP_MultiScreen instance;
-    public static MP_MultiScreen Instance { get { return instance; } private set { } }
 
-    CtrolObject ctrol_object = CtrolObject.C_GRID;
+    [SerializeField] GameObject screen_pre;
+    List<GameObject> screens = new List<GameObject>();
     RenderTexture targetTexture;
-
     /// <summary>
     /// the screen gird size, you can change it as wish, more columns more smooth for grid and with more GPU task.
     /// </summary>
@@ -110,70 +74,21 @@ public class MP_MultiScreen : MonoBehaviour
     /// </summary>
     int global_array_foucs_col = 0;
     int global_array_foucs_row = 0;
-
     /// <summary>
     /// max cols rows record size of screens , depends on screens count
     /// </summary>
     int max_cols = 0;
     int max_rows = 0;
-
-
     /// <summary>
     /// last active screen id
     /// </summary>
     int last_screen_id = -1;
-
     int screen_count = 0;
-
-
     /// <summary>
     /// screen rows and cols
     /// </summary>
-    int screen_count_col = 1; 
+    int screen_count_col = 1;
     int screen_count_row = 1;
-
-    int screen_width = 1024;
-    int screen_height = 768;
-
-
-    /// <summary>
-    /// update screen_width by resolution
-    /// </summary>
-    void set_screen_w_h()
-    {
-        if (screen_reslotion == ScreenResolution.S_1024X768)
-        {
-            screen_width = 1024;
-            screen_height = 768;
-        }
-        else if (screen_reslotion == ScreenResolution.S_800X600)
-        {
-            screen_width = 800;
-            screen_height = 600;
-        }
-        else if (screen_reslotion == ScreenResolution.S_1280X720)
-        {
-            screen_width = 1280;
-            screen_height = 720;
-        }
-        else if (screen_reslotion == ScreenResolution.S_1280X800)
-        {
-            screen_width = 1280;
-            screen_height = 800;
-        }
-        else if (screen_reslotion == ScreenResolution.S_1920X1080)
-        {
-            screen_width = 1920;
-            screen_height = 1080;
-        }
-        else if (screen_reslotion == ScreenResolution.S_1920X1200)
-        {
-            screen_width = 1920;
-            screen_height = 1200;
-        }
-
-    }
-
     /// <summary>
     /// previous camera
     /// </summary>
@@ -184,16 +99,12 @@ public class MP_MultiScreen : MonoBehaviour
     /// </summary>
     void Awake()
     {
-
-        for (int i = 0; i < Display.displays.Length; i++)
-        {
+        for (int i = 1; i < Display.displays.Length; i++)
             Display.displays[i].Activate();
 
-        }
+        var screen_width = Screen.width;
+        var screen_height = Screen.height;
 
-        instance = this;
-
-        set_screen_w_h();
         if (layout == ScreenLayout.L_1X1)
         {
             screen_count = 1;
@@ -213,7 +124,7 @@ public class MP_MultiScreen : MonoBehaviour
             screen_count = 4;
             screen_count_col = 2;
             screen_count_row = 2;
-            targetTexture = new RenderTexture(screen_width * screen_count_col, screen_height* screen_count_row, 24);
+            targetTexture = new RenderTexture(screen_width * screen_count_col, screen_height * screen_count_row, 24);
         }
         else if (layout == ScreenLayout.L_2X3)
         {
@@ -242,18 +153,16 @@ public class MP_MultiScreen : MonoBehaviour
             screen_count_col = 2;
             screen_count_row = 4;
             targetTexture = new RenderTexture(screen_width * screen_count_col, screen_height * screen_count_row, 24);
-        } 
+        }
 
         targetTexture.antiAliasing = 2;
         targetTexture.format = RenderTextureFormat.ARGB32;
         targetTexture.Create();
 
-
         Camera[] cameras = FindObjectsByType<Camera>(sortMode: FindObjectsSortMode.None);
         foreach (Camera cam in cameras)
         {
-
-            if (cam.name != "MP_MappingCamera")
+            if (cam.name != "MP_MultiScreen_X")
             {
                 cam.targetTexture = targetTexture;
                 cam.tag = "Untagged"; //disable camera main tag,  Mapping camera will take over the last show
@@ -270,27 +179,27 @@ public class MP_MultiScreen : MonoBehaviour
         max_cols = COLUMNS + 1;
         max_rows = ROWS + 1;
 
-        GameObject screen = Instantiate(screen_pre) as GameObject;
-
+        var screen = Instantiate(screen_pre) as GameObject;
         screen.transform.position = new Vector3(40, 0, -10f);
-        Transform screen_grid = screen.transform.Find("MP_ScreenGrid");
+        this.screens.Add(screen);
 
+        Transform screen_grid = screen.transform.Find("MP_ScreenGrid");
         MP_ScreenGrid sg = screen_grid.GetComponentInChildren<MP_ScreenGrid>();
-        sg.set_mesh_uv(new Vector4(0, 0, 1f, 1f), targetTexture);
+        sg.set_mesh_uv(new Vector4(this.overlap, 0, 1f, 1f), targetTexture);
         sg.screen_width = Screen.width;
         sg.screen_height = Screen.height;
         sg.SetGridCount(COLUMNS, ROWS);
         sg.showGrid = showGrid;
         sg.isFocus = true;
-        sg.blend_count = (int)blend_count +1;
+        sg.blend_count = (int)blend_count + 1;
         screenGrids.Add(sg);
     }
 
     void start_nX1()
     {
-
-        int iblend_count = (int)blend_count ;
+        int iblend_count = (int)this.blend_count;
         //print(iblend_count);
+
         // how many screen 
 
         max_cols = screen_count * (COLUMNS + 1);
@@ -305,8 +214,11 @@ public class MP_MultiScreen : MonoBehaviour
         {
             GameObject screen = Instantiate(screen_pre) as GameObject;
             screen.transform.position = transform.position + new Vector3((i + 1) * 20 + 20, 0, -10f);
+            this.screens.Add(screen);
+
             Transform screen_grid = screen.transform.Find("MP_ScreenGrid");
-            float u_start = (b_uv_step - b_uv_step_u) * i;
+            float u_start = (b_uv_step - b_uv_step_u) * i + this.overlap
+                ;
             Vector4 uv_rect = new Vector4(u_start, 0f, b_uv_step, 1);
             MP_ScreenGrid sg = screen_grid.GetComponent<MP_ScreenGrid>();
             sg.set_mesh_uv(uv_rect, targetTexture);
@@ -318,8 +230,6 @@ public class MP_MultiScreen : MonoBehaviour
             sg.screen_width = Screen.width;
             sg.screen_height = Screen.height;
 #else
-                 
-            
                 if (sg.screen_id < Display.displays.Length)
                 {
                     sg.screen_width = Display.displays[sg.screen_id].systemWidth;
@@ -327,12 +237,10 @@ public class MP_MultiScreen : MonoBehaviour
                 }
                 else
                 {
-                    sg.screen_width = screen_width;
-                    sg.screen_height = screen_height;
+                    sg.screen_width = Screen.width;
+                    sg.screen_height = Screen.height;
                 }
-
 #endif
-
             sg.GirdColor = Color.blue;
             sg.showGrid = showGrid;
             sg.isFocus = false;
@@ -344,8 +252,7 @@ public class MP_MultiScreen : MonoBehaviour
 
     void start_nXn()
     {
-        int iblend_count = (int)blend_count ;
-
+        int iblend_count = (int)blend_count;
 
         max_cols = screen_count_col * (COLUMNS + 1);
         max_rows = screen_count_row * (ROWS + 1);
@@ -363,13 +270,16 @@ public class MP_MultiScreen : MonoBehaviour
             {
                 GameObject screen = Instantiate(screen_pre) as GameObject;
                 screen.transform.position = transform.position + new Vector3((i + 1) * 20 + 20, (j + 1) * -20 + 20, -10f);
+                this.screens.Add(screen);
+
                 Transform screen_grid = screen.transform.Find("MP_ScreenGrid");
-                float u_start = (b_u_step - b_u_step_u) * i;
-                float v_start = (b_v_step - b_v_step_v) * (screen_count_row-1-j);
+                float u_start = (b_u_step - b_u_step_u) * i + this.overlap
+                    ;
+                float v_start = (b_v_step - b_v_step_v) * (screen_count_row - 1 - j);
                 Vector4 uv_rect = new Vector4(u_start, v_start, b_u_step, b_v_step);
                 MP_ScreenGrid sg = screen_grid.GetComponent<MP_ScreenGrid>();
                 sg.set_mesh_uv(uv_rect, targetTexture);
-                sg.screen_id = i+j* screen_count_col;
+                sg.screen_id = i + j * screen_count_col;
                 sg.SetGridCount(COLUMNS, ROWS);
 
                 // in editor mode only use first monitor width
@@ -377,7 +287,6 @@ public class MP_MultiScreen : MonoBehaviour
                 sg.screen_width = Screen.width;
                 sg.screen_height = Screen.height;
 #else
-            
                 if (sg.screen_id < Display.displays.Length)
                 {
                     sg.screen_width = Display.displays[sg.screen_id].systemWidth;
@@ -385,12 +294,10 @@ public class MP_MultiScreen : MonoBehaviour
                 }
                 else
                 {
-                    sg.screen_width = screen_width;
-                    sg.screen_height = screen_height;
+                    sg.screen_width = Screen.width;
+                    sg.screen_height = Screen.height;
                 }
-
 #endif
-
                 sg.GirdColor = Color.blue;
                 sg.showGrid = showGrid;
                 sg.isFocus = false;
@@ -406,7 +313,6 @@ public class MP_MultiScreen : MonoBehaviour
     {
         global_array_foucs_col = COLUMNS / 2; //default col is half of screen
         global_array_foucs_row = ROWS / 2;
-         
 
         if (layout == ScreenLayout.L_1X1)
         {
@@ -419,18 +325,16 @@ public class MP_MultiScreen : MonoBehaviour
         else if (layout >= ScreenLayout.L_2X1 && layout <= ScreenLayout.L_8X1)
         {
             start_nX1();
-        }        
+        }
+
+        this.showInfor("");
     }
-
-
-
     /// <summary>
     /// active a gird and update it's color
     /// </summary>
     /// <param name="dst_screen_id"></param>
     void setActiveScreen(int dst_screen_id)
     {
-
         foreach (MP_ScreenGrid sg in screenGrids)
         {
             if (sg.screen_id == dst_screen_id)
@@ -496,7 +400,7 @@ public class MP_MultiScreen : MonoBehaviour
         int dst_screen_id_x = global_array_foucs_col / (COLUMNS + 1);
         int dst_screen_id_y = global_array_foucs_row / (ROWS + 1);
 
-        int dst_screen_id = dst_screen_id_x + (screen_count_row- dst_screen_id_y-1) * screen_count_col;
+        int dst_screen_id = dst_screen_id_x + (screen_count_row - dst_screen_id_y - 1) * screen_count_col;
 
         int col = global_array_foucs_col % (COLUMNS + 1);
         int row = global_array_foucs_row % (ROWS + 1);
@@ -561,7 +465,7 @@ public class MP_MultiScreen : MonoBehaviour
     /// use for Black Level and Brightness Compensation
     /// https://resolume.com/manual/start?id=en/r4/output
     /// </summary>
-    Vector3 RGB_Compensation_base = Vector3.zero; 
+    Vector3 RGB_Compensation_base = Vector3.zero;
 
 
     void help_gui_do_win(int windowID)
@@ -584,10 +488,10 @@ public class MP_MultiScreen : MonoBehaviour
         helpStr += "F8: load default grid \n";
         helpStr += "ESC: exit\n";
 
+        var screen_width = Screen.width;
         Rect rect = new Rect(screen_width / 8, 50, 800, 900);
         GUI.Box(new Rect(0, 0, screen_width, screen_width), "");
         GUI.Label(rect, helpStr, help_style);
-
     }
 
     void win_color(int w_id)
@@ -608,7 +512,11 @@ public class MP_MultiScreen : MonoBehaviour
         y_pos += 30;
         if (IsVector3Changed(RGB_base, RGB_base_old))
         {
-            getActiveScreen().set_screen_color_directly(RGB_base);
+            this.getActiveScreen().set_screen_color_directly(RGB_base);
+            string r = string.Format("{0:0.000}", RGB_base.x);
+            string g = string.Format("{0:0.000}", RGB_base.y);
+            string b = string.Format("{0:0.000}", RGB_base.z);
+            this.showInfor("RGB: " + "{ " + r + "," + g + "," + b + " }");
         }
 
         Vector3 RGB_Compensation_base_old = RGB_Compensation_base;
@@ -641,7 +549,12 @@ public class MP_MultiScreen : MonoBehaviour
         if (GUI.Button(new Rect(100, y_pos, 100, 30), "Reset All"))
         {
             RGB_base = Vector3.zero;
-            getActiveScreen().set_screen_color_directly(RGB_base);
+            this.getActiveScreen().set_screen_color_directly(RGB_base);
+            string r = string.Format("{0:0.000}", RGB_base.x);
+            string g = string.Format("{0:0.000}", RGB_base.y);
+            string b = string.Format("{0:0.000}", RGB_base.z);
+            this.showInfor("RGB: " + "{ " + r + "," + g + "," + b + " }");
+
             edge_gamma = 0.31f;
             update_edge_gamma();
             RGB_Compensation_base = Vector3.zero;
@@ -669,10 +582,10 @@ public class MP_MultiScreen : MonoBehaviour
         {
             windowRect = GUI.Window(0, windowRect, win_color, "RGB & Gamma");
         }
- 
+
     }
 
- 
+
     /// <summary>
     /// is the vector3 value changed ?
     /// </summary>
@@ -682,7 +595,7 @@ public class MP_MultiScreen : MonoBehaviour
     bool IsVector3Changed(Vector3 v1, Vector3 v2)
     {
         Vector3 diff = v1 - v2;
-        if (diff.sqrMagnitude > 0.00001f) return true; 
+        if (diff.sqrMagnitude > 0.00001f) return true;
         return false;
     }
 
@@ -690,9 +603,9 @@ public class MP_MultiScreen : MonoBehaviour
     /// get screen id by mouse , now support 1*n .  
     /// </summary>
     /// <returns></returns>
-    int getScreenIDbyMousePostion( )
+    int getScreenIDbyMousePostion()
     {
-   
+
         float start_x = 0;
         int sc_id = 0;
         if (screen_count <= Display.displays.Length)
@@ -701,7 +614,7 @@ public class MP_MultiScreen : MonoBehaviour
             {
                 if (Input.mousePosition.x > start_x)
                 {
-                    sc_id = i;                    
+                    sc_id = i;
                 }
                 start_x += Display.displays[i].systemWidth;
             }
@@ -713,8 +626,8 @@ public class MP_MultiScreen : MonoBehaviour
     /// </summary>
     void setActiveScreenByMouse()
     {
-       
-        
+
+
 
         Vector2 screen_mouse_start_pos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
         if (!showGrid) return;
@@ -748,7 +661,7 @@ public class MP_MultiScreen : MonoBehaviour
         int near_col = 0;
         int near_row = 0;
         getActiveScreen().getNearest_Col_row(screen_mouse_start_pos.x, screen_mouse_start_pos.y, out near_col, out near_row);
-
+        // this.showInfor(near_col + ":" + near_row);
 
         global_array_foucs_col = dst_screen_id * (COLUMNS + 1) + near_col;
         global_array_foucs_row = near_row;
@@ -758,46 +671,13 @@ public class MP_MultiScreen : MonoBehaviour
         int row = global_array_foucs_row % (ROWS + 1);
         getActiveScreen().set_ctrl_pt(col, row);
     }
-
-    /// <summary>
-    /// is01SameValue check same return 0 or 1 , for math calculate
-    /// </summary>
-    /// <param name="c1"></param>
-    /// <param name="c2"></param>
-    /// <returns></returns>
-    int is01SameValue(CtrolObject c1, CtrolObject c2)
-    {
-        if (c1 == c2) return 1;
-        return 0;
-    }
     /// <summary>
     /// up / left key handle
     /// change value by CtrolObject type
     /// </summary>
     void holdDirKey()
     {
-        if (Input.GetKey(KeyCode.R))
-        {
-            ctrol_object = CtrolObject.C_COLOR_R;
-            showInfor("change color red now");
-        }
-        else if (Input.GetKey(KeyCode.G))
-        {
-            ctrol_object = CtrolObject.C_COLOR_G;
-            showInfor("change color green now");
-        }
-        else if (Input.GetKey(KeyCode.B))
-        {
-            ctrol_object = CtrolObject.C_COLOR_B;
-            showInfor("change color blue now");
-        }
-        else if (Input.GetKey(KeyCode.M))
-        {
-            ctrol_object = CtrolObject.C_GRID;
-            //showInfor("change grid now");
-        }
-
-        if (ctrol_object == CtrolObject.C_GRID && showGrid)
+        if (showGrid)
         {
             if (Input.GetKeyUp(KeyCode.D))
             {
@@ -844,38 +724,7 @@ public class MP_MultiScreen : MonoBehaviour
             }
             if (findMove) getActiveScreen().set_move_gird(move_shift);
         }
-        else if (ctrol_object == CtrolObject.C_COLOR_R || ctrol_object == CtrolObject.C_COLOR_G || ctrol_object == CtrolObject.C_COLOR_B)
-        {
-            Vector3 color_shift = Vector3.zero;
-            bool findMove = false;
-            if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.LeftArrow))
-            {
-                float mount = -0.001f * shift_amount;
-                color_shift = new Vector3(is01SameValue(ctrol_object, CtrolObject.C_COLOR_R) ,
-                    is01SameValue(ctrol_object, CtrolObject.C_COLOR_G) ,
-                    is01SameValue(ctrol_object, CtrolObject.C_COLOR_B) ) * mount;
-                findMove = true;
-            }
-            if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.RightArrow))
-            {
-                float mount = 0.001f * shift_amount;
-                color_shift = new Vector3(is01SameValue(ctrol_object, CtrolObject.C_COLOR_R),
-                    is01SameValue(ctrol_object, CtrolObject.C_COLOR_G),
-                    is01SameValue(ctrol_object, CtrolObject.C_COLOR_B)) * mount;
-                findMove = true;
-            }
-            if (findMove)
-            {
-               
-                getActiveScreen().set_screen_color(color_shift);
-                RGB_base = getActiveScreen().get_screen_color();
-                RGB_Compensation_base = getActiveScreen().get_compsention_color();
-            }
-        }
-
     }
-
-
     /// <summary>
     /// clear old camera color for test color
     /// </summary>
@@ -891,13 +740,12 @@ public class MP_MultiScreen : MonoBehaviour
             {
                 Transform cld = old_Cam.transform.GetChild(i);
                 Destroy(cld.gameObject);
-                
+
             }
             old_Cam.backgroundColor = test_colors[old_cam_index];
         }
 
     }
-
     /// <summary>
     /// change screen or open color panel
     /// </summary>
@@ -917,6 +765,8 @@ public class MP_MultiScreen : MonoBehaviour
     int temp_blend_count = -1;
     void Update()
     {
+        this.OverlapTest();
+
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             shift_amount = 5.0f;
@@ -955,15 +805,14 @@ public class MP_MultiScreen : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.F2))
         {
             showColorPanel = !showColorPanel;
-            if (showColorPanel) update_color_gamma();
+            if (showColorPanel)
+                update_color_gamma();
             else
             {
                 isShowGamaLine = false;
                 getActiveScreen().update_gamma(edge_gamma, isShowGamaLine);
             }
         }
-
-       
 
         if (Input.GetKeyUp(KeyCode.H))
         {
@@ -999,25 +848,25 @@ public class MP_MultiScreen : MonoBehaviour
             dst_screen_id = dst_screen_id % screen_count;
             setActiveScreen(dst_screen_id);
             update_color_gamma();
-            showInfor("Screen :" + dst_screen_id + " is acitved") ;
+            showInfor("Screen :" + dst_screen_id + " is acitved");
         }
 
-        
+
         if (Input.GetKey(KeyCode.Equals))
         {
-            edge_gamma += 0.002f* shift_amount;
+            edge_gamma += 0.002f * shift_amount;
             if (edge_gamma > 1) edge_gamma = 1;
             isShowGamaLine = true;
             update_edge_gamma();
-          
+
         }
         if (Input.GetKey(KeyCode.Minus))
         {
-            edge_gamma -= 0.002f* shift_amount;
+            edge_gamma -= 0.002f * shift_amount;
             if (edge_gamma < 0) edge_gamma = 0;
             isShowGamaLine = true;
             update_edge_gamma();
-            
+
         }
         if (Input.GetKeyUp(KeyCode.T))
         {
@@ -1035,8 +884,6 @@ public class MP_MultiScreen : MonoBehaviour
 
         }
 
-
-
         if (Input.GetKeyUp(KeyCode.F5))
         {
 
@@ -1044,7 +891,7 @@ public class MP_MultiScreen : MonoBehaviour
             {
                 sg.Save();
             }
-          
+
             showInfor("Save OK.");
         }
 
@@ -1064,13 +911,10 @@ public class MP_MultiScreen : MonoBehaviour
             showInfor("now move grid by:" + move_way.ToString());
         }
 
-
-
         if (Input.GetMouseButtonUp(0))
         {
             setActiveScreenByMouse();
         }
-
 
         if (Input.GetKeyUp(KeyCode.F8))
         {

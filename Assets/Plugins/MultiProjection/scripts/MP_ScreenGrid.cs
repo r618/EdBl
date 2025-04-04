@@ -10,7 +10,7 @@ using System.Collections.Generic;
 /// <summary>
 /// screen gird class 
 /// </summary>
-public class MP_ScreenGrid : MonoBehaviour
+public partial class MP_ScreenGrid : MonoBehaviour
 {
 
 	/// <summary>
