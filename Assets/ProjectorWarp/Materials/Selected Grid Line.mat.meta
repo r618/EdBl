@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 7336c1bdab6773b4eb5131d3e82267c9
+timeCreated: 1470880778
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 75582
+  packageName: Multi Projector Warp System
+  packageVersion: 3.4.0
+  assetPath: Assets/ProjectorWarp/Materials/Selected Grid Line.mat
+  uploadId: 559661

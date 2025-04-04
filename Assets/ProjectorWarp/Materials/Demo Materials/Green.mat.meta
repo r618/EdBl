@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: d421497614d109440af2556bf82791e2
+timeCreated: 1478839504
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 75582
+  packageName: Multi Projector Warp System
+  packageVersion: 3.4.0
+  assetPath: Assets/ProjectorWarp/Materials/Demo Materials/Green.mat
+  uploadId: 559661

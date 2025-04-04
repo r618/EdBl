@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 94269abae75144a4fb76d37070437426
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 75582
+  packageName: Multi Projector Warp System
+  packageVersion: 3.4.0
+  assetPath: Assets/ProjectorWarp/Scripts/AssignCanvasCamera.cs
+  uploadId: 559661

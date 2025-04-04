@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: a5055a49685977649ae503967ec3bfa7
+timeCreated: 1477277331
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 75582
+  packageName: Multi Projector Warp System
+  packageVersion: 3.4.0
+  assetPath: Assets/ProjectorWarp/Scenes/Offset Camera.unity
+  uploadId: 559661

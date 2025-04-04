@@ -1,0 +1,25 @@
+fileFormatVersion: 2
+guid: 875fd6c0413ccb0458198c1eef206d3d
+AssetOrigin:
+  serializedVersion: 1
+  productId: 75582
+  packageName: Multi Projector Warp System
+  packageVersion: 3.4.0
+  assetPath: Assets/ProjectorWarp/Videos/1024X76830FpsPhotoJpeg75.mp4
+  uploadId: 559661
+VideoClipImporter:
+  externalObjects: {}
+  serializedVersion: 3
+  frameRange: 0
+  startFrame: -1
+  endFrame: -1
+  colorSpace: 0
+  deinterlace: 0
+  encodeAlpha: 0
+  flipVertical: 0
+  flipHorizontal: 0
+  importAudio: 1
+  targetSettings: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

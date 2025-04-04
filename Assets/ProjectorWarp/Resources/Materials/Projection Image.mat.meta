@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 3f03e357c93a94ccd8aef9eef330bf92
+timeCreated: 1465151860
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 75582
+  packageName: Multi Projector Warp System
+  packageVersion: 3.4.0
+  assetPath: Assets/ProjectorWarp/Resources/Materials/Projection Image.mat
+  uploadId: 559661

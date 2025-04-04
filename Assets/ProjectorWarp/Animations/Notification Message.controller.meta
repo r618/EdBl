@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 0d8b19dcb2ca94b7998a30de11eb92a9
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 9100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 75582
+  packageName: Multi Projector Warp System
+  packageVersion: 3.4.0
+  assetPath: Assets/ProjectorWarp/Animations/Notification Message.controller
+  uploadId: 559661

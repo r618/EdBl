@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 360889433091a42be84aac70afb8b4c8
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 75582
+  packageName: Multi Projector Warp System
+  packageVersion: 3.4.0
+  assetPath: Assets/ProjectorWarp/Prefabs/Mapped Cursor.prefab
+  uploadId: 559661

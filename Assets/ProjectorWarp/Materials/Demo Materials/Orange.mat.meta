@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: bf15cf8a231b74038b69a94f847e1246
+timeCreated: 1478839504
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 75582
+  packageName: Multi Projector Warp System
+  packageVersion: 3.4.0
+  assetPath: Assets/ProjectorWarp/Materials/Demo Materials/Orange.mat
+  uploadId: 559661

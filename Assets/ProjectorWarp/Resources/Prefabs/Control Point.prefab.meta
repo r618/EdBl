@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: a3ef3de7229f39846849156b9d7673d4
+timeCreated: 1470883988
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 75582
+  packageName: Multi Projector Warp System
+  packageVersion: 3.4.0
+  assetPath: Assets/ProjectorWarp/Resources/Prefabs/Control Point.prefab
+  uploadId: 559661

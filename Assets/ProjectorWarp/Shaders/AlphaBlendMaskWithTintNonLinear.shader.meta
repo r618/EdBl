@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: d24a0ed26ed49624082e90d0acc7e44c
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 75582
+  packageName: Multi Projector Warp System
+  packageVersion: 3.4.0
+  assetPath: Assets/ProjectorWarp/Shaders/AlphaBlendMaskWithTintNonLinear.shader
+  uploadId: 559661

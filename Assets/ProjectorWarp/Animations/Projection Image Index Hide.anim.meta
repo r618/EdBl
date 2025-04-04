@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 00bb1f92a928c4e7ead96b4d089c7567
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 7400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 75582
+  packageName: Multi Projector Warp System
+  packageVersion: 3.4.0
+  assetPath: Assets/ProjectorWarp/Animations/Projection Image Index Hide.anim
+  uploadId: 559661

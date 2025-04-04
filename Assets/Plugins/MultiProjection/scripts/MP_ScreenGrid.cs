@@ -851,7 +851,7 @@ public partial class MP_ScreenGrid : MonoBehaviour
         Load();
         UpdateAll();
 
-        MP_MultiScreen.Instance.showInfor("");
+        MP_MultiScreen.Instance?.showInfor("");
     }
 
 

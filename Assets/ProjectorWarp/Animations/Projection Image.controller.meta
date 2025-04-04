@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: f39cc8e44128c42b589c38499c0af24d
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 9100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 75582
+  packageName: Multi Projector Warp System
+  packageVersion: 3.4.0
+  assetPath: Assets/ProjectorWarp/Animations/Projection Image.controller
+  uploadId: 559661

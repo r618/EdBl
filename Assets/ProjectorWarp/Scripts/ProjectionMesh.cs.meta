@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: 4bf77031da00004409ba001d6d251884
+timeCreated: 1479038584
+licenseType: Store
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 75582
+  packageName: Multi Projector Warp System
+  packageVersion: 3.4.0
+  assetPath: Assets/ProjectorWarp/Scripts/ProjectionMesh.cs
+  uploadId: 559661

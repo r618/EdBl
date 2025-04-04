@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: e765e1824c71c4206b05e22a2f69e51d
+timeCreated: 1477454630
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 75582
+  packageName: Multi Projector Warp System
+  packageVersion: 3.4.0
+  assetPath: Assets/ProjectorWarp/Resources/Prefabs/Source Camera.prefab
+  uploadId: 559661

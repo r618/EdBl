@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 90b5c4fa3721f084e9fe7fff9b1cc721
+timeCreated: 1478839504
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 75582
+  packageName: Multi Projector Warp System
+  packageVersion: 3.4.0
+  assetPath: Assets/ProjectorWarp/Materials/Demo Materials/Aqua.mat
+  uploadId: 559661

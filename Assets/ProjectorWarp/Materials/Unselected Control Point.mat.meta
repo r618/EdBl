@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: d9d752e6c905e1a45989403891dd1a4c
+timeCreated: 1470880778
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 75582
+  packageName: Multi Projector Warp System
+  packageVersion: 3.4.0
+  assetPath: Assets/ProjectorWarp/Materials/Unselected Control Point.mat
+  uploadId: 559661

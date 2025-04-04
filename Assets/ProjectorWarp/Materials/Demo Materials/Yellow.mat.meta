@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: a95d4268ee7914b42940c1eeefc8f75c
+timeCreated: 1478839504
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 75582
+  packageName: Multi Projector Warp System
+  packageVersion: 3.4.0
+  assetPath: Assets/ProjectorWarp/Materials/Demo Materials/Yellow.mat
+  uploadId: 559661

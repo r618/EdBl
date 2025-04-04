@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: f9f62b0a66719408a9368909b2d6cc28
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 7400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 75582
+  packageName: Multi Projector Warp System
+  packageVersion: 3.4.0
+  assetPath: Assets/ProjectorWarp/Animations/Projection Image Index Visible.anim
+  uploadId: 559661

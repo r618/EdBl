@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: a2988933645fe4fb8829c348d09587f5
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 75582
+  packageName: Multi Projector Warp System
+  packageVersion: 3.4.0
+  assetPath: Assets/ProjectorWarp/Shaders/CartesianCoordinateColor.shader
+  uploadId: 559661

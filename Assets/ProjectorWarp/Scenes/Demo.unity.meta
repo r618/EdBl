@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: ac32a98920bd20741bedac2f8e5df233
+timeCreated: 1477277331
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 75582
+  packageName: Multi Projector Warp System
+  packageVersion: 3.4.0
+  assetPath: Assets/ProjectorWarp/Scenes/Demo.unity
+  uploadId: 559661

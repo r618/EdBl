@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 5b3d05663e2b9486eaf93af619f0fd0e
+timeCreated: 1477277331
+licenseType: Store
+DefaultImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 75582
+  packageName: Multi Projector Warp System
+  packageVersion: 3.4.0
+  assetPath: Assets/ProjectorWarp/Scenes/Cartesian Space Cursor.unity
+  uploadId: 559661
