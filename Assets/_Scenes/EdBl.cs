@@ -1,8 +1,9 @@
+using MultiProjectorWarpSystem;
 using UnityEngine;
 
 public class EdBl : MonoBehaviour
 {
-    [SerializeField] MP_MultiScreen_X multiScreen_X;
+    [SerializeField] ProjectionWarpSystem projectionWarpSystem;
 
     void Awake()
     {
@@ -25,7 +26,6 @@ public class EdBl : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F10))
         {
             this.eblGui = !this.eblGui;
-            this.multiScreen_X.showGrid = this.eblGui;
         }
 
         if (Input.GetKeyDown(KeyCode.Escape))
