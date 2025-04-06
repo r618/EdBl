@@ -1,11 +1,10 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 namespace MultiProjectorWarpSystem
 {
     public class MultiDisplayActivator : MonoBehaviour
     {
-        public static MultiDisplayActivator instance;
+        // public static MultiDisplayActivator instance;
 
         void Awake()
         {
@@ -22,7 +21,6 @@ namespace MultiProjectorWarpSystem
             }
              */
         }
-
 
         void Start()
         {
