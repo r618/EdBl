@@ -1,0 +1,3 @@
+[submodule "Assets/Plugins/if_unity"]
+	path = Assets/Plugins/if_unity
+	url = https://bitbucket.org/Interactstyle_BB/if_unity
