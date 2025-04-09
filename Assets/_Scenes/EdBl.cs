@@ -7,7 +7,6 @@ public class EdBl : MonoBehaviour
 
     void Awake()
     {
-        /*
         Debug.Log("connected displays: " + Display.displays.Length);
         // Display.displays[0] is the primary, default display and is always ON, so start at index 1.
         // Check if additional displays are available and activate each.
@@ -16,8 +15,8 @@ public class EdBl : MonoBehaviour
             Debug.LogFormat("Display {0} activating..", i);
             Display.displays[i].Activate();
         }
-        Screen.SetResolution(Display.displays[0].systemWidth * Display.displays.Length, Display.displays[0].systemHeight, FullScreenMode.FullScreenWindow);
-        */
+
+        // Screen.SetResolution(Display.displays[0].systemWidth * Display.displays.Length, Display.displays[0].systemHeight, FullScreenMode.FullScreenWindow);
     }
 
     bool eblGui = false;
