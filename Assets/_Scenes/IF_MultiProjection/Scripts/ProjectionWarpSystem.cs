@@ -1,17 +1,15 @@
 ﻿using SimpleJSON;
-using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Text;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace InteractiveFloorProjection
+namespace InteractiveFloor
 {
     [ExecuteInEditMode]
-    public class ProjectionWarpSystem : MonoBehaviour
+    public partial class ProjectionWarpSystem : MonoBehaviour
     {
         public enum CameraArragement
         {
@@ -23,82 +21,52 @@ namespace InteractiveFloorProjection
             VERTICAL_PERSPECTIVE_CIRCULAR = 6,
         }
 
-
         [Header("Projection Settings")]
-        public string defaultCalibrationFile;
-        public CameraArragement arrangement;
-        public Vector2 renderTextureSize;
-        public int xDivisions = 5;
-        public int yDivisions = 5;
-        public int firstProjector = 1;
-        public int projectorCount;
-        public bool regenerateCamera = true;
-        public bool reverseOrdering = false;
-        
+        public CameraArragement arrangement = CameraArragement.HORIZONTAL_ORTHOGRAPHIC;
+        [SerializeField] Vector2 projectorResolution = new Vector2(1920, 1080);
+        [SerializeField] int xDivisions = 5;
+        [SerializeField] int yDivisions = 5;
+        [SerializeField] [Range(1, 8)] int firstProjector = 1;
+        [SerializeField] [Range(1, 8)] int projectorCount;
+        [SerializeField] bool regenerateCamera = true;
+        [SerializeField] bool reverseOrdering = false;
 
-        [Header("Edit Mode")]
-        public int selectedMesh;
+        // [Header("Edit Mode")]
+        int selectedMesh;
 
         [Header("Debug")]
-        public bool showMouseCursor;
-        public bool showProjectionWarpGUI;
-        public bool showIconLabels;
+        public bool showProjectionWarpGUI = true;
+        public bool showIconLabels = true;
 
         [Header("Reference Game Objects")]
         public Transform projectionCamerasContainer;
         public Transform sourceCamerasContainer;
-        public RectTransform projectionUIContainer;
-        public GameObject fileIOContainer;
         public NotificationMessage notificationMessage;
-        public List<Material> fadeMaterials;
         public CalibrationManager calibrationManager;
 
-
         [Header("Cameras & UI")]
+        [SerializeField] Camera sourceCameraPrefab;
+        [SerializeField] Camera projectionCameraPrefab;
+
         public List<Camera> sourceCameras;
         public List<ProjectionMesh> projectionCameras;
         public List<int> targetDisplays;
 
         [Header("Distances")]
-        public Vector2 overlap;
-        public float viewportSize;
-        public float orthographicSizeScale;
-        public float near;
-        public float far;
-        public float fieldOfView;
+        public Vector2 overlap = Vector2.one;
+        public float viewportSize = 5.4f; // viewportSize = projectorResolution.y / 200f;
+        public float orthographicSizeScale = 1;
+        public float near = 0.3f;
+        public float far = 1000f;
+        public float fieldOfView = 90;
 
-        public float aspectRatio;
+        float aspectRatio;
+        public float projectionCameraSpace = 2;
 
-        public float projectionCameraSpace;
-
-        [Header("File IO")]
-        public string saveCalibrationFile;
-
-        
-
-
-        public void UpdateFilename()
-        {
-            saveCalibrationFile = calibrationManager.filename.text;
-        }
-
-        
         void OnEnable()
         {
-            UpdateCursor();
             UpdateProjectionWarpGUI();
 
-
-            //bind enter press event on input field
-            calibrationManager.filename.onEndEdit.RemoveAllListeners();
-            calibrationManager.filename.onEndEdit.AddListener(val =>
-            {
-                if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
-                {
-                    saveCalibrationFile = calibrationManager.filename.text;
-                }
-            });
-            
             /*
             if (projectorCount != sourceCameras.Count)
             {
@@ -115,7 +83,6 @@ namespace InteractiveFloorProjection
 
         public void AssignReferences()
         {
-
             for (int i = 0; i < projectorCount; i++)
             {
                 if (sourceCameras[i] == null || projectionCameras[i] == null) continue;
@@ -124,19 +91,12 @@ namespace InteractiveFloorProjection
         }
         void Start()
         {
-            
-            if (File.Exists(Application.dataPath + "/../default_calibration.json"))	
-            {	
-                LoadCalibration(Application.dataPath + "/../default_calibration.json");	
-            }	
-            else if (defaultCalibrationFile.Length > 0)	
-            {	
-                LoadCalibration(defaultCalibrationFile);	
-            }
+            this.LoadCalibration();
 
-            AssignReferences();
-            SelectProjector(0, false);
-            
+            this.UpdateSourceCameras();
+
+            this.AssignReferences();
+            this.SelectProjector(0, false);
         }
 
         public ProjectionMesh GetCurrentProjectionCamera()
@@ -145,12 +105,6 @@ namespace InteractiveFloorProjection
 
             return projectionCameras[selectedMesh];
         }
-        public void UpdateCursor()
-        {
-            Cursor.visible = showMouseCursor;
-            calibrationManager.mouseSelectedHighlight.SetActive(showMouseCursor);
-        }
-
         public void UpdateProjectionWarpGUI()
         {
             calibrationManager.canvas.enabled = showProjectionWarpGUI;
@@ -286,6 +240,7 @@ namespace InteractiveFloorProjection
 
         public void UpdateProjectionCameras()
         {
+            this.viewportSize = this.projectorResolution.y / 200f;
 
             for (int i = 0; i < projectionCameras.Count; i++)
             {
@@ -305,8 +260,8 @@ namespace InteractiveFloorProjection
                         projectionCameras[i].transform.parent.localPosition = new Vector3((float)i * (projectionCameras[i].width + projectionCameraSpace), 0f, 0f);
                         break;
                 }
-                projectionCameras[i].width = renderTextureSize.x / 100f;
-                projectionCameras[i].height = renderTextureSize.y / 100f;
+                projectionCameras[i].width = this.projectorResolution.x / 100f;
+                projectionCameras[i].height = this.projectorResolution.y / 100f;
                 projectionCameras[i].xDivisions = xDivisions;
                 projectionCameras[i].yDivisions = yDivisions;
                 projectionCameras[i].targetCamera.orthographicSize = viewportSize;
@@ -315,7 +270,6 @@ namespace InteractiveFloorProjection
             }
 
         }
-
         public float HorizontalToVerticalFOV(float hFov)
         {
             float hFovRad = hFov * Mathf.Deg2Rad;
@@ -323,11 +277,9 @@ namespace InteractiveFloorProjection
             float vFov = vFovRad * Mathf.Rad2Deg;
             return vFov;
         }
-
         public void UpdateSourceCameras()
-        {   
-            
-            aspectRatio = (float)renderTextureSize.x/ (float)renderTextureSize.y;
+        {
+            aspectRatio = (float)this.projectorResolution.x / (float)this.projectorResolution.y;
             
             float viewportHeight = viewportSize * 2;
             float viewportWidth = viewportHeight * aspectRatio;
@@ -557,37 +509,30 @@ namespace InteractiveFloorProjection
         public void InitCameras()
         {        
             if (!regenerateCamera) return;
-            //build source render texture cameras array
-            GameObject sourceCamera;
-            Camera camera;
-            RenderTexture renderTexture;
 
+            //build source render texture cameras array
             for (int i = 0; i < projectorCount; i++)
             {
-                sourceCamera = Instantiate(Resources.Load("Prefabs/Source Camera", typeof(GameObject))) as GameObject;
-                camera = sourceCamera.GetComponent<Camera>();
-                sourceCameras.Add(camera);
+                var sourceCamera = Instantiate(this.sourceCameraPrefab);
+                sourceCameras.Add(sourceCamera);
                 sourceCamera.name = "Source Camera " + (i + 1);
                 sourceCamera.transform.SetParent(sourceCamerasContainer);
-                renderTexture = new RenderTexture((int)renderTextureSize.x, (int)renderTextureSize.y, 24, RenderTextureFormat.ARGB32);
+                var renderTexture = new RenderTexture((int)this.projectorResolution.x, (int)this.projectorResolution.y, 24, RenderTextureFormat.ARGB32);
                 renderTexture.antiAliasing = 8;
                 renderTexture.Create();
                 targetDisplays.Add(i + firstProjector - 1);
-                camera.targetTexture = renderTexture;
-                camera.targetDisplay = targetDisplays[i];
+                sourceCamera.targetTexture = renderTexture;
+                sourceCamera.targetDisplay = targetDisplays[i];
             }
 
             //build final render cameras
-            GameObject projectionCamera;
-            ProjectionMesh projectionMesh;
-
             for (int i = 0; i < projectorCount; i++)
             {
                 int index = i;
                 if(reverseOrdering) index = projectorCount - i - 1;
 
-                projectionCamera = Instantiate(Resources.Load("Prefabs/Projection Camera", typeof(GameObject))) as GameObject;
-                projectionMesh = projectionCamera.transform.GetChild(0).GetComponent<ProjectionMesh>();
+                var projectionCamera = Instantiate(this.projectionCameraPrefab);
+                var projectionMesh = projectionCamera.transform.GetChild(0).GetComponent<ProjectionMesh>();
                 
                 projectionCameras.Add(projectionMesh);
                 projectionMesh.meshIndex = i;
@@ -613,8 +558,8 @@ namespace InteractiveFloorProjection
                 projectionMesh.yDivisions = yDivisions;
                 //projectionMesh.prevXDivision = xDivisions;
                 //projectionMesh.prevYDivision = yDivisions;
-                projectionMesh.width = renderTextureSize.x / 100f;
-                projectionMesh.height = renderTextureSize.y / 100f;
+                projectionMesh.width = this.projectorResolution.x / 100f;
+                projectionMesh.height = this.projectorResolution.y / 100f;
                 projectionCamera.GetComponent<Camera>().targetDisplay = targetDisplays[i];
 
                 projectionMesh.CreateMesh();
@@ -638,19 +583,6 @@ namespace InteractiveFloorProjection
             notificationMessage.messageText.text = "Calibration has been saved";
             notificationMessage.Show();
         }
-        public void LoadCalibrationUsingInput(GameObject input)
-        {
-            if (LoadCalibration(input.GetComponent<InputField>().text))
-            {
-                notificationMessage.messageText.text = "Calibration has been loaded";
-            }
-            else
-            {
-                notificationMessage.messageText.text = "Error loading calibration";
-            }
-
-            notificationMessage.Show();
-        }
         public void SaveCalibration(string path)
         {
             if (path == null || path.Length == 0) return;
@@ -670,8 +602,8 @@ namespace InteractiveFloorProjection
             }
             
             json += "\"OrthographicSizeScale\":" + orthographicSizeScale.ToString(iItemFormat, CultureInfo.InvariantCulture) + ",";
-            json += "\"TextureWidth\":" + (int)renderTextureSize.x + ",";
-            json += "\"TextureHeight\":" + (int)renderTextureSize.y + ",";
+            json += "\"TextureWidth\":" + (int)this.projectorResolution.x + ",";
+            json += "\"TextureHeight\":" + (int)this.projectorResolution.y + ",";
             json += "\"XDivisions\":" + xDivisions + ",";
             json += "\"YDivisions\":" + yDivisions + ",";
             json += "\"OverlapX\":" + overlap.x.ToString(iItemFormat, CultureInfo.InvariantCulture) + ",";
@@ -757,46 +689,17 @@ namespace InteractiveFloorProjection
 
             Debug.Log(path + " has been saved.");
         }
-
-        public bool LoadCalibration(string path)
+        public bool LoadCalibration()
         {
-            if (path == null || path.Length == 0) return false;
-
-            string json = "";
-            try
-            {
-                string line;
-
-                StreamReader theReader = new StreamReader(path, Encoding.Default);
-                using (theReader)
-                {
-
-                    do
-                    {
-                        line = theReader.ReadLine();
-
-                        if (line != null)
-                        {
-                            json += line;
-                        }
-                    }
-                    while (line != null);
-                    theReader.Close();
-
-                }
-            }
-            catch (Exception e)
-            {
-                //Console.WriteLine("{0}\n", e.Message);
-                Debug.Log(e.Message);
+            var json = PlayerPrefs.GetString("projection_calibration.json", "");
+            if (string.IsNullOrWhiteSpace(json))
                 return false;
 
-            }
             var N = JSON.Parse(json);
             //fieldOfView = N["FieldOfView"].AsFloat;	
             fieldOfView = float.Parse(N["FieldOfView"], CultureInfo.InvariantCulture.NumberFormat);
             projectorCount = N["Cameras"].Count;
-            renderTextureSize = new Vector2(N["TextureWidth"].AsInt, N["TextureHeight"].AsInt);
+            this.projectorResolution = new Vector2(N["TextureWidth"].AsInt, N["TextureHeight"].AsInt);
             xDivisions = N["XDivisions"].AsInt;
             yDivisions = N["YDivisions"].AsInt;
             arrangement = (CameraArragement)N["Arrangement"].AsInt;
@@ -919,16 +822,10 @@ namespace InteractiveFloorProjection
                 projectionMesh.UpdateUI();
             }
             
-            defaultCalibrationFile = path;
-            UpdateSourceCameras();
-            Debug.Log(path + " has been loaded.");
+            Debug.Log("projection_calibration.json has been loaded.");
 
             return true;
         }
-
         #endregion
-
-
     }
-
 }

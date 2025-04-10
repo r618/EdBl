@@ -2,14 +2,14 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace InteractiveFloorProjection
+namespace InteractiveFloor
 {
     [RequireComponent(typeof(Animator))]
     public class ProjectionMesh : MonoBehaviour
     {
         public int meshIndex = 0;
         const float NEAR_FAR_INSET = 0.001f;
-        public float planeDistance = 10f;
+        public float planeDistance = 0.4f;
         
         public enum MeshEditMode
         {
@@ -19,8 +19,8 @@ namespace InteractiveFloorProjection
             COLUMNS,
             POINTS
         }
+
         [Header("Parameters")]
-        
         public MeshEditMode editMode;
         public bool selectionActive;
         public int selectedVertex;
@@ -32,8 +32,6 @@ namespace InteractiveFloorProjection
         public float height;
 
         public Vector2[] cornerOffset = new Vector2[4];
-        //public Vector2[] rowOffset;
-        //public Vector2[] columnOffset;
         public Vector2[] pointOffset;
 
         public float indexAppearDuration = 3;
@@ -54,6 +52,10 @@ namespace InteractiveFloorProjection
         public Transform selectedRowLinesContainer;
         public Transform selectedColumnLinesContainer;
 
+        [Header("UX")]
+        [SerializeField] ControlPoint controlPointPrefab;
+        [SerializeField] LineRenderer gridLinePrefab;
+
         [Header("Line Renderers")]
         public List<LineRenderer> baseRowLines;
         public List<LineRenderer> baseColumnLines;
@@ -66,20 +68,19 @@ namespace InteractiveFloorProjection
         [Header("Fade Controls")]
         public float topFadeRange;
         public float topFadeChoke;
-        public float topFadeGamma;
+        public float topFadeGamma = 1;
         public float bottomFadeRange;
         public float bottomFadeChoke;
-        public float bottomFadeGamma;
+        public float bottomFadeGamma = 1;
         public float leftFadeRange;
         public float leftFadeChoke;
-        public float leftFadeGamma;
+        public float leftFadeGamma = 1;
         public float rightFadeRange;
         public float rightFadeChoke;
-        public float rightFadeGamma;
-
+        public float rightFadeGamma = 1;
 
         [Header("Color Correction")]
-        public Color tint;
+        public Color tint = Color.white;
 
         [Header("Gizmos")]
         public float sphereRadius;
@@ -95,10 +96,10 @@ namespace InteractiveFloorProjection
         float prevHeight;
         Animator animator;
 
-        public bool showGrid;
-        public bool showSelectedGrid;
-        public bool showControlPoints;
-        public bool showSelectedControlPoints;
+        public bool showGrid = true;
+        public bool showSelectedGrid = true;
+        public bool showControlPoints = true;
+        public bool showSelectedControlPoints = true;
         
         public int editVertexIndex;
 
@@ -213,20 +214,16 @@ namespace InteractiveFloorProjection
 
             if (controlPointsContainer.childCount == 0)
             {
-                GameObject controlPointPrefab = Resources.Load("Prefabs/Control Point") as GameObject;
-                GameObject controlPoint;
-
                 for (int i = 0; i < xDivisions + 1; i++)
                 {
                     for (int j = 0; j < yDivisions + 1; j++)
                     {
-                        controlPoint = (GameObject)Instantiate(controlPointPrefab, Vector3.zero, Quaternion.identity);
+                        var controlPoint = Instantiate(this.controlPointPrefab, Vector3.zero, Quaternion.identity);
                         controlPoint.transform.SetParent(controlPointsContainer);
                         controlPoint.name = "Control Point (" + j + "," + i + ")";
-                        controlPoints.Add(controlPoint.GetComponent<ControlPoint>());
+                        controlPoints.Add(controlPoint);
                     }
                 }
-
             }
         }
         public void ToggleSelectedControlPoints()
@@ -302,12 +299,9 @@ namespace InteractiveFloorProjection
             ClearBaseRowLines();
             if (baseRowLinesContainer.childCount == 0)
             {
-                GameObject gridLinePrefab = Resources.Load("Prefabs/Grid Line") as GameObject;
-                GameObject gridLine;
-
                 for (int i = 0; i < yDivisions + 1; i++)
                 {
-                    gridLine = (GameObject)Instantiate(gridLinePrefab, Vector3.zero, Quaternion.identity);
+                    var gridLine = Instantiate(this.gridLinePrefab, Vector3.zero, Quaternion.identity);
                     gridLine.transform.SetParent(baseRowLinesContainer);
                     gridLine.name = "Row Grid Line (" + i + ")";
                     LineRenderer lineRenderer = gridLine.GetComponent<LineRenderer>();
@@ -331,13 +325,9 @@ namespace InteractiveFloorProjection
 
             if (baseColumnLinesContainer.childCount == 0)
             {
-                GameObject gridLinePrefab = Resources.Load("Prefabs/Grid Line") as GameObject;
-                GameObject gridLine;
-
-
                 for (int i = 0; i < xDivisions + 1; i++)
                 {
-                    gridLine = (GameObject)Instantiate(gridLinePrefab, Vector3.zero, Quaternion.identity);
+                    var gridLine = Instantiate(this.gridLinePrefab, Vector3.zero, Quaternion.identity);
                     gridLine.transform.SetParent(baseColumnLinesContainer);
                     gridLine.name = "Column Grid Line (" + i + ")";
                     LineRenderer lineRenderer = gridLine.GetComponent<LineRenderer>();
@@ -416,12 +406,9 @@ namespace InteractiveFloorProjection
 
             if (selectedRowLinesContainer.childCount == 0)
             {
-                GameObject gridLinePrefab = Resources.Load("Prefabs/Grid Line") as GameObject;
-                GameObject gridLine;
-
                 for (int i = 0; i < yDivisions + 1; i++)
                 {
-                    gridLine = (GameObject)Instantiate(gridLinePrefab, Vector3.zero, Quaternion.identity);
+                    var gridLine = Instantiate(this.gridLinePrefab, Vector3.zero, Quaternion.identity);
                     gridLine.transform.SetParent(selectedRowLinesContainer);
                     gridLine.name = "Row Grid Line (" + i + ")";
                     LineRenderer lineRenderer = gridLine.GetComponent<LineRenderer>();
@@ -453,12 +440,9 @@ namespace InteractiveFloorProjection
 
             if (selectedRowLinesContainer.childCount == 0)
             {
-                GameObject gridLinePrefab = Resources.Load("Prefabs/Grid Line") as GameObject;
-                GameObject gridLine;
-
                 int selectedRow = Mathf.FloorToInt((float)selectedVertex / (float)(xDivisions + 1));
 
-                gridLine = (GameObject)Instantiate(gridLinePrefab, Vector3.zero, Quaternion.identity);
+                var gridLine = Instantiate(this.gridLinePrefab, Vector3.zero, Quaternion.identity);
                 gridLine.transform.SetParent(selectedRowLinesContainer);
                 gridLine.name = "Row Grid Line (" + selectedRow + ")";
                 LineRenderer lineRenderer = gridLine.GetComponent<LineRenderer>();
@@ -490,12 +474,9 @@ namespace InteractiveFloorProjection
 
             if (selectedColumnLinesContainer.childCount == 0)
             {
-                GameObject gridLinePrefab = Resources.Load("Prefabs/Grid Line") as GameObject;
-                GameObject gridLine;
-
                 for (int i = 0; i < xDivisions + 1; i++)
                 {
-                    gridLine = (GameObject)Instantiate(gridLinePrefab, Vector3.zero, Quaternion.identity);
+                    var gridLine = Instantiate(this.gridLinePrefab, Vector3.zero, Quaternion.identity);
                     gridLine.transform.SetParent(selectedColumnLinesContainer);
                     gridLine.name = "Column Grid Line (" + i + ")";
                     LineRenderer lineRenderer = gridLine.GetComponent<LineRenderer>();
@@ -528,12 +509,9 @@ namespace InteractiveFloorProjection
             if (selectedVertex < 0) return;
             if (selectedColumnLinesContainer.childCount == 0)
             {
-                GameObject gridLinePrefab = Resources.Load("Prefabs/Grid Line") as GameObject;
-                GameObject gridLine;
-
                 int selectedColumn = selectedVertex % (xDivisions + 1);
 
-                gridLine = (GameObject)Instantiate(gridLinePrefab, Vector3.zero, Quaternion.identity);
+                var gridLine = Instantiate(this.gridLinePrefab, Vector3.zero, Quaternion.identity);
                 gridLine.transform.SetParent(selectedColumnLinesContainer);
                 gridLine.name = "Column Grid Line (" + selectedColumn + ")";
                 LineRenderer lineRenderer = gridLine.GetComponent<LineRenderer>();

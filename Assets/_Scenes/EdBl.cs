@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class EdBl : MonoBehaviour
 {
-    [SerializeField] ProjectionWarpSystem projectionWarpSystem;
+    [SerializeField] InteractiveFloor.ProjectionWarpSystem projectionWarpSystem;
 
     void Awake()
     {
@@ -18,6 +18,11 @@ public class EdBl : MonoBehaviour
 
         // Screen.SetResolution(Display.displays[0].systemWidth * Display.displays.Length, Display.displays[0].systemHeight, FullScreenMode.FullScreenWindow);
     }
+
+    // MainCamera
+    // RT
+    // Size
+    // HDR
 
     bool eblGui = false;
     void Update()

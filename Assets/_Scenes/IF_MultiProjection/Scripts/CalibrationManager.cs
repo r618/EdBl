@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace InteractiveFloorProjection
+namespace InteractiveFloor
 {
     public class CalibrationManager : MonoBehaviour
     {
@@ -23,7 +23,6 @@ namespace InteractiveFloorProjection
         [Header("Shelf Icons")]
         public ProjectionWarpSystem system;
         public Canvas canvas;
-        public InputField filename;
         public Text currentProjectorText;
 
         [Header("Button Selected Highlights")]
@@ -31,8 +30,6 @@ namespace InteractiveFloorProjection
         public GameObject pointGroupLabel;
         public GameObject blendLabel;
         public GameObject whiteLabel;
-        public GameObject mouseLabel;
-        public GameObject ioLabel;
         public GameObject helpLabel;
 
         [Header("Button Selected Highlights")]
@@ -43,7 +40,6 @@ namespace InteractiveFloorProjection
         public GameObject blendSelectedHighlight;
         public GameObject whiteSelectedHighlight;
         public GameObject cameraSettingsSelectedHighlight;
-        public GameObject mouseSelectedHighlight;
         public GameObject helpSelectedHighlight;
 
         [Header("Hotkey Instructions")]
@@ -99,13 +95,7 @@ namespace InteractiveFloorProjection
 
         void Start()
         {
-            SetButtonState(MenuState.NONE);
-            mouseSelectedHighlight.SetActive(system.showMouseCursor);
-        }
-        
-        void Update()
-        {
-
+            this.SetButtonState(MenuState.NONE);
         }
 
         #region Edge Blending Callbacks
@@ -264,7 +254,7 @@ namespace InteractiveFloorProjection
         {
             Color tint = system.GetCurrentProjectionCamera().tint;
             system.GetCurrentProjectionCamera().tint = new Color(value / 255f, tint.g, tint.b);
-            
+
             redInputField.text = value.ToString();
             system.GetCurrentProjectionCamera().UpdateBlend();
         }
@@ -322,7 +312,8 @@ namespace InteractiveFloorProjection
         #region Camera Callbacks
         public void OnOverlapSliderChanged(float value)
         {
-            switch(system.arrangement){
+            switch (system.arrangement)
+            {
                 case ProjectionWarpSystem.CameraArragement.HORIZONTAL_ORTHOGRAPHIC:
                 case ProjectionWarpSystem.CameraArragement.HORIZONTAL_PERSPECTIVE:
                 case ProjectionWarpSystem.CameraArragement.HORIZONTAL_PERSPECTIVE_CIRCULAR:
@@ -346,8 +337,9 @@ namespace InteractiveFloorProjection
         {
             float overlap = 0f;
             float.TryParse(value, NumberStyles.Any, CultureInfo.InvariantCulture, out overlap);
-            
-            switch(system.arrangement){
+
+            switch (system.arrangement)
+            {
                 case ProjectionWarpSystem.CameraArragement.HORIZONTAL_ORTHOGRAPHIC:
                 case ProjectionWarpSystem.CameraArragement.HORIZONTAL_PERSPECTIVE:
                 case ProjectionWarpSystem.CameraArragement.HORIZONTAL_PERSPECTIVE_CIRCULAR:
@@ -361,7 +353,7 @@ namespace InteractiveFloorProjection
                 default:
                     break;
             }
-            
+
             overlapSlider.value = overlap;
 
             system.UpdateSourceCameras();
@@ -397,7 +389,8 @@ namespace InteractiveFloorProjection
             HideAllExclusiveModeSelections();
             HideAllViews();
 
-            switch (s) {
+            switch (s)
+            {
                 case MenuState.CORNERS:
                     cornerSelectedHighlight.SetActive(true);
                     cornerScrollView.gameObject.SetActive(true);
@@ -446,7 +439,8 @@ namespace InteractiveFloorProjection
         }
 
         #region Shelf Callbacks
-        public void OnToggleCameraSettings(){
+        public void OnToggleCameraSettings()
+        {
             system.SetEditMode(ProjectionMesh.MeshEditMode.NONE);
 
             if (state == MenuState.CAMERA_SETTINGS)
@@ -458,12 +452,6 @@ namespace InteractiveFloorProjection
                 SetButtonState(MenuState.CAMERA_SETTINGS);
             }
         }
-        
-        public void OnToggleMouseCursorDisplay()
-        {
-            system.showMouseCursor = !system.showMouseCursor;
-            system.UpdateCursor();
-        }
         public void OnToggleDisplaySelect()
         {
             system.SelectNextProjector();
@@ -471,7 +459,7 @@ namespace InteractiveFloorProjection
         public void OnToggleCornerSelect()
         {
 
-            if (system.GetCurrentProjectionCamera().editMode ==  ProjectionMesh.MeshEditMode.CORNERS)
+            if (system.GetCurrentProjectionCamera().editMode == ProjectionMesh.MeshEditMode.CORNERS)
             {
                 system.SetEditMode(ProjectionMesh.MeshEditMode.NONE);
             }
@@ -490,7 +478,7 @@ namespace InteractiveFloorProjection
             {
                 system.SetEditMode(ProjectionMesh.MeshEditMode.ROWS);
             }
-            
+
         }
         public void OnToggleColumnSelect()
         {
@@ -544,7 +532,7 @@ namespace InteractiveFloorProjection
         public void OnToggleHelp()
         {
             system.SetEditMode(ProjectionMesh.MeshEditMode.NONE);
-            if ( state== MenuState.HELP)
+            if (state == MenuState.HELP)
             {
                 SetButtonState(MenuState.NONE);
             }
@@ -553,17 +541,13 @@ namespace InteractiveFloorProjection
                 SetButtonState(MenuState.HELP);
             }
         }
-
         #endregion
-
         public void ShowIconLabels()
         {
             displayLabel.SetActive(true);
             pointGroupLabel.SetActive(true);
             blendLabel.SetActive(true);
             whiteLabel.SetActive(true);
-            mouseLabel.SetActive(true);
-            ioLabel.SetActive(true);
             helpLabel.SetActive(true);
         }
         public void HideIconLabels()
@@ -572,10 +556,7 @@ namespace InteractiveFloorProjection
             pointGroupLabel.SetActive(false);
             blendLabel.SetActive(false);
             whiteLabel.SetActive(false);
-            mouseLabel.SetActive(false);
-            ioLabel.SetActive(false);
             helpLabel.SetActive(false);
         }
     }
-
 }

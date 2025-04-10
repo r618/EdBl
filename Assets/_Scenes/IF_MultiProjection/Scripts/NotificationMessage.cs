@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace InteractiveFloorProjection
+namespace InteractiveFloor
 {
     [RequireComponent(typeof(Animator))]
     public class NotificationMessage : MonoBehaviour

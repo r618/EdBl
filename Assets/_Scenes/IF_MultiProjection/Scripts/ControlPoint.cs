@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace InteractiveFloorProjection
+namespace InteractiveFloor
 {
     public class ControlPoint : MonoBehaviour
     {
