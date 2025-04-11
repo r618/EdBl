@@ -1,9 +1,10 @@
-using MultiProjectorWarpSystem;
+using InteractiveFloor;
 using UnityEngine;
 
 public class EdBl : MonoBehaviour
 {
-    [SerializeField] InteractiveFloor.ProjectionWarpSystem projectionWarpSystem;
+    [SerializeField] ProjectionWarpSystem projectionWarpSystem;
+    [SerializeField] Camera mainCamera;
 
     void Awake()
     {
@@ -22,7 +23,7 @@ public class EdBl : MonoBehaviour
     // MainCamera
     // RT
     // Size
-    // HDR
+    // HDR - Use gr settings
 
     bool eblGui = false;
     void Update()

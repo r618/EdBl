@@ -311,10 +311,10 @@ MonoBehaviour:
   uv:
   - {x: 0, y: 0}
   triangles: 
-  showGrid: 1
-  showSelectedGrid: 1
-  showControlPoints: 1
-  showSelectedControlPoints: 1
+  showGrid: 0
+  showSelectedGrid: 0
+  showControlPoints: 0
+  showSelectedControlPoints: 0
   editVertexIndex: 0
   selectedControlPoint: {fileID: 6704047128900060345}
 --- !u!1 &1141068168803008
