@@ -7,8 +7,8 @@ using UnityEngine.UI;
 namespace MultiProjectorWarpSystem
 {
     [RequireComponent(typeof(ProjectionWarpSystem))]
-    public class ProjectionWarpSystemKeyboardInput : MonoBehaviour
-    {
+    public class ProjectionWarpSystemKeyboardInput : MonoBehaviour {
+
         [Header("Directions")]
         public KeyCode upKey;
         public KeyCode downKey;

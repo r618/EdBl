@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 namespace MultiProjectorWarpSystem
 {
     public class MultiDisplayActivator : MonoBehaviour
     {
-        // public static MultiDisplayActivator instance;
+        public static MultiDisplayActivator instance;
 
         void Awake()
         {
@@ -20,7 +21,11 @@ namespace MultiProjectorWarpSystem
                 Destroy(gameObject);
             }
              */
+        }
 
+
+        void Start()
+        {
             //Debug.Log("displays connected: " + Display.displays.Length);
             // Display.displays[0] is the primary, default display and is always ON.
             // Check if additional displays are available and activate each.
